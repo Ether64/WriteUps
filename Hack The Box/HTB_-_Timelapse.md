@@ -8,7 +8,7 @@
 -`sV` enumerate service versions
 -`-p-`all ports
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509213919.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509213919.png)
 
 We see an Active Directory listing using LDAP (service associated with Active Directory).
 
@@ -26,7 +26,7 @@ LDAP server has a hostname of timelapse.htb0
 
 - `enum4linux timelapse.htb` to find available shares 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509221643.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509221643.png)
 
 From this, we get 'Known Usernames' which is somewhat interesting.
 
@@ -34,36 +34,36 @@ From this, we get 'Known Usernames' which is somewhat interesting.
 **Connecting using smbclient**
 
 `smbclient -L //10.10.11.152/ -U ''`
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509215543.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509215543.png)
 
 You can see we have all these possible shares (sharenames) to connect to within the Active Directory machine.
 
 We can check connection to these shares like: 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509220120.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509220120.png)
 
 Eventually we are able to connect to `IPC$`:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509220143.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509220143.png)
 
 **Pentesting SMB**
 
 Use https://book.hacktricks.xyz/network-services-pentesting/pentesting-smb HackTricks to guide pentesting methodology of smb
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509223236.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509223236.png)
 
 
 
 
 - Now that we know a little more about exploit smb shares, lets come back to the `smbclient` command, this time not providing for any password.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509223017.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509223017.png)
 
 Poggers, using the smbclient command with a blank password and a username of `guest` allows us to connect, from which we can see two shares Dev and HelpDesk.
 
 
 I then navigated to these directories and got everything from them using the `get` command; we find a zip `winrm_backup.zip` that may be crackable.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509223510.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509223510.png)
 
 - On the contrary, we find a lot of shit in the `\HelpDesk` share (`LAPS.x64.msi, LAPS_Datasheet.docx, LAPS_OperationsGuide.docx, LAPS_TechnicalSpecification.docx`) that might be useful later.
 
@@ -71,15 +71,15 @@ I then navigated to these directories and got everything from them using the `ge
 
 - You can read more about LAPS here: https://www.hackingarticles.in/credential-dumpinglaps/
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20230204161703.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20230204161703.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509223602.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509223602.png)
 
 Sick, we have the `winrm_backup.zip` archive on our host kali machine now after `getting` it through `smbclient`--now we need to find out how to crack the zip, which has a password.
 
 For this, i have chosen to use a tool called `fcrackzip` on kali: https://www.geeksforgeeks.org/fcrackzip-tool-crack-a-zip-file-password-in-kali-linux/ (open google search provides this)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509224436.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509224436.png)
 
 - Check the link above to review fcrackzip functionality, but in short:
 	- `-b` allows bruteforcing of the zip file
@@ -91,7 +91,7 @@ For this, i have chosen to use a tool called `fcrackzip` on kali: https://www.ge
 Using the dictionary `-D` argument, found the password to be *supremelegacy*
 
 - Dope, but IDK what a .pfx file is so lets look this up.
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20230204130824.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20230204130824.png)
 
 Google leads us to believe this file will likely contain an SSL cert and public key.
 
@@ -99,7 +99,7 @@ Google leads us to believe this file will likely contain an SSL cert and public 
 
 IBM:https://www.ibm.com/docs/en/arl/9.7?topic=certification-extracting-certificate-keys-from-pfx-file
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509225426.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509225426.png)
 
 The above screenshot tells us that when the pfx file was created, an import password was used to create it combining the certificate and key using openssl, as above.
 
@@ -119,7 +119,7 @@ Yes, I decided to...
 
 `crackpkcs12 -d /usr/share/wordlists/rockyou.txt ../legacyy_dev_auth.pfx`
 
-- ![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509232401.png)
+- ![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509232401.png)
 
 The tool works successfully, and returns the password **thuglegacy**
 
@@ -133,7 +133,7 @@ Now we can run the openssl commands that I posted above with the import password
 
 **Here is the private key value**:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509232654.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509232654.png)
 
 **Extracting the Certificate from the pfx file**
 
@@ -141,7 +141,7 @@ Now we can run the openssl commands that I posted above with the import password
 
 - Worked, here is the certificate value:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509232907.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509232907.png)
 
 ---------
 
@@ -165,7 +165,7 @@ Now we have a private key and certificate, so it's time to attempt connection to
 
 - Using these parameters, we craft the following command:
 	- `evil-winrm -c certout -S -k keyout -i 10.10.11.152 -u guest -p thuglegacy`
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220509234831.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220509234831.png)
 
 We are able to connect using the private key and certificate we gained from the .pfx file.
 
@@ -205,7 +205,7 @@ The text `E3R$Q62^12p7PLlC%KWaxuaV` is being made into a secure string; leads us
 	- `-M` switch is used to specify the module that we will use with crackmap, which in this case is LAPS (Local Administrator Password Solution).
 	- LAPS is a windows feature that automatically manages and backs up the password of a local admin account.
 
-- ![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220511010731.png)
+- ![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220511010731.png)
 
 - Needed to configure default DNS resolution for 10.10.11.152 to timelapse.htb in /etc/hosts
 -----
@@ -214,10 +214,10 @@ The text `E3R$Q62^12p7PLlC%KWaxuaV` is being made into a secure string; leads us
 Got onto the machine with admin privileges using evilrm and the new password:
 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220511011900.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220511011900.png)
 
 in which i then used Powershell to find the root.txt flag
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220511011727.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220511011727.png)
 
 - Powershell used: `get-ChildItem -Recurse -Filter 'root.txt'`
 

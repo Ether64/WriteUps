@@ -21,7 +21,7 @@
  `OS: Linux; CPE: cpe:/o:linux:linux_kernel`
 
 This tells us the OS is Linux.
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410124837.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410124837.png)
 
 The scan also tells us the machine running is Debian, as per the VERSION field of the scan.
 
@@ -76,28 +76,28 @@ Here's the entire nmap scan.
 
 Next, we are going to type the IP address of the box we are pentesting in the firefox search box. 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410125256.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410125256.png)
 We find this site. Drupal, a CMS (content management site) which is used for website management.
 
 Looks like the version we are running is older than some of the newer ones (we tell this by looking at the format of the website compared to the new google search of the site).
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410125539.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410125539.png)
 (Newest version)
 - Let's lookup 'pentesting drupal' to see if there is common vulnerabilities against it.
 
 We come across a hacktricks page:
 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410125411.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410125411.png)
 ## Droopescan
 Nothing really here, lets look at another resource, that has tools to pentest drupal.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410125702.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410125702.png)
 
 - We have a github link to this tool, which we can try installing using `sudo apt`  or `git clone`.
 
 the manual installation of this tool which the github tells us to do with this:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410130353.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410130353.png)
 
 Paste this into our terminal, and it should be installed.
 
@@ -107,15 +107,15 @@ Paste this into our terminal, and it should be installed.
 
 Lets first run the help command of this tool to see how we can use it:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410130559.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410130559.png)
 
 We are looking to exploit Drupal: 
 
 The example syntax of a command to run against Drupal is given here:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410130647.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410130647.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410130721.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410130721.png)
 
 With the above command, we will start a scan against the machine we are looking to exploit, which is the Drupal website at 192.168.108.193 (for me).
 
@@ -125,7 +125,7 @@ NOTE: In a real pentesting scenario, we would not wait for this tool to run, we 
 
 For example: we could use Tmux (or ctrl+shift+t) to create another tab, and then look to run another tool we found on the Pentest Book website:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410131012.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410131012.png)
 
 (This one)
 
@@ -139,13 +139,13 @@ This will create a directory 'drupwn' that we then cd into.
 
 Which will give us a file 'requirements.txt' that has pip modules in it we can install:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410131535.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410131535.png)
 
 We will run this command to install the tool.
 
 
 Then lets run the help command of the tool to find out how to use it:
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410131810.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410131810.png)
 
 The full command we wanna run with all the arguments is 
 
@@ -155,7 +155,7 @@ This will start running the drupwn tool. Lets go back to the droopescan tool whi
 
 ## Droopescan
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132012.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132012.png)
 
 We can see the scan has now finished with this tool.
 
@@ -167,28 +167,28 @@ We can see the scan has now finished with this tool.
 
 
 - Now, lets go to exploitdb and search for 'drupal7'
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132223.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132223.png)
    - Look for entires that have a checkmark next to them
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132245.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132245.png)
 
 This looks like the most promising exploit (works for versions under 7.58, and verified by checkmark)
 
 - On kali linux we can use this tool called 'searchsploit' which pretty much does the same thing as exploitdb, because it gets all its exploits from exploitdb.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132415.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132415.png)
 
 
 Out of this list, we can see the same exploit we are looking at on exploitdb 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132542.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132542.png)
 
 Can continue using searchsploit to do sift through details on exploitdb on this vulnerability within the terminal 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132636.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132636.png)
 
 - This will print out details that we can match to the exploitdb entry.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410132725.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410132725.png)
 
 Now lets run the same command with the `-m` switch to copy the exploit to the directory we are within right now.
 
@@ -198,7 +198,7 @@ Now lets run the same command with the `-m` switch to copy the exploit to the di
 
 Now, lets run the created `44449.rb` exploit using the proper compiler for it, which we know is Ruby.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410133656.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410133656.png)
 
 - We get an error, which we can input into goolge to find a possible solution.
 
@@ -206,24 +206,24 @@ Now, lets run the created `44449.rb` exploit using the proper compiler for it, w
 
 So lets try that:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410133848.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410133848.png)
 
 - Hey look, now the exploit worked when we run it with `ruby 44449.rb` 
 
 This tells us to run the following command like `ruby nameofexploit.rb <websiteaddress>`
 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410134106.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410134106.png)
 
 This worked, and it looks like this opened a shell:
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410134156.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410134156.png)
 we have successfully got a shell that is a fake php shell. 
 
 Lets try to get a real shell now, using netcat.
 
 But first, we need to know if netcat is on the box, so type `which netcat` within the shell.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410134347.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410134347.png)
 
 So netcat is on the server, and we have our fake php shell on this server. Lets use netcat to create a bash shell on this server, so we can really elevate our privileges.
 
@@ -234,9 +234,9 @@ So netcat is on the server, and we have our fake php shell on this server. Lets 
 
 `/bin/bash` is specifies we want to send a terminal 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410134912.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410134912.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410134923.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410134923.png)
 
 So, after establishing a netcat listener on our virtual machine and connecting to that listener by sending a reverse bash shell to ourselves from the exploited machine, we can now interact with the exploited machine from the listener. 
 
@@ -246,7 +246,7 @@ We have a shell, and can now cd in and out of directories, but its hard to inter
 
 So lets make this prettier with a python one-line script that creates a more readable shell.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410135322.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410135322.png)
 
 So, using `python -c "import pty;pty.spawn('/bin/bash');"`
 
@@ -265,16 +265,16 @@ we can create a more readable shell, which actually shows us the user that we ar
 We didn't really find anything from the massive wall of text this printed out, so instead we looked up what the default configuration file of drupal is, which google tells us is 'settings.php'
 
 First we have to navigate to where this file is located, then cat it out.
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410140550.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410140550.png)
 - Now, we are gonna look for 'username' and 'password' within this php file.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410140635.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410140635.png)
 
 We find some interesting details here, which are database credentials (probably for mySQL). 
 
 
 Lets just check to see what services are running on t his machine, and if we can find a mySQL database running (would look for port 3306)
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410140805.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410140805.png)
 
 - Using `netstat -tulpn` we can see that there is indeed a database running on this machine.
 
@@ -282,7 +282,7 @@ Lets just check to see what services are running on t his machine, and if we can
 
 `mysql -u dbuser -p`
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410141024.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410141024.png)
 
 We got into the sql database. Now lets start showing databases.
 
@@ -298,7 +298,7 @@ After knowing the layout, we are interesting in selecting the name and password 
 
 So we type the sql query `SELECT name,pass FROM users;`
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410141723.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410141723.png)
 
 Look at that. We now have usernames and passwords for some users, but they look encrypted.
 
@@ -312,20 +312,20 @@ Lets run a common password list on these hashed passwords:
 
 - run JohnTheRipper on the created 'hash' file to run a password list attack on it.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410142317.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410142317.png)
 
 This will take a while, so lets move something in the background.
 
 Lets move back to our mysql shell, and exit it.
 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410142424.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410142424.png)
 
 Moving to the home directory, we see a text file local.txt which contains the flag which we need to give to OffSec to complete the challenge.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410142557.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410142557.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410142635.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410142635.png)
 
 We catted the local.txt file and got the flag, then submitted that to the DC-1 challenge on OffSec.
 
@@ -341,7 +341,7 @@ Lets copy linpeas.sh from our downloads directory to our current directory: (a t
 
 - Now we are going to setup a temporary python http server using `python3 -m http.server 80` (on our kali machine)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410143529.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410143529.png)
 
 So we can see our temporary server running there on the right.
 
@@ -349,13 +349,13 @@ So we can see our temporary server running there on the right.
 
 - To get the hosted linpeas.sh file from the temporary web server, onto the exploited box.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410144458.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410144458.png)
 
 - Now we have downloaded the linpeas.sh file from the temp python server on our host machine, onto the exploited box.
 
 - We can then run linpeas.sh with `bash linpeas.sh`
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410144619.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410144619.png)
 
 - Found version numbers of the Linux exploited linux box (which is 3.2 and vulnerable).
 
@@ -363,21 +363,21 @@ So we can see our temporary server running there on the right.
 
 - The important  exploit suggestor is this:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410144942.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410144942.png)
 
 - Next we see lots of processes running on the machine.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410145020.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410145020.png)
 
 - Next we have the .socket stuff, which is exploitable if we can reboot the computer, but we cant because we are www-data and have no root privileges.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410145200.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410145200.png)
 
 - Next, the linpeas script runs port scanning stuff and prints out the details.
 
 - Next we see User Information:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410145324.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410145324.png)
 
 Heres the interesting part:
 
@@ -385,19 +385,19 @@ we see user 'flag4' with a uid of over 1000 they are an actual user.
 
 - Next there is some software infomration, which we  see there is gcc and python on the machine, which can be used as compilers.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410145604.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410145604.png)
 
 - Nothing much is important until we stumble upon the drupal settings.php file again:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410145650.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410145650.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410145813.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410145813.png)
 
 Now we see something that /find that is almost certainly exploitable.
 
 - Lets go to GTFOBins and search under find:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410150025.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410150025.png)
 
 We have the first part (SUID bit on find)
 We want the second part, so run:
@@ -406,7 +406,7 @@ We want the second part, so run:
 
 BUT, because we are following this exploit, we need to omit the -p to allow the default `sh` shell to run with SUID privileges.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410150326.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410150326.png)
 
 After running this, we have root.
 
@@ -416,7 +416,7 @@ The command above does - for everything it finds in the current directory, it ex
 
 Next lets run `bash -p -i` so we can have an interactive bash session with the machine (kinda like how we upgraded our shell with python, given we have an sh session).
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220410150836.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220410150836.png)
 
 - Doing these commands, we can eventually navigate to where the last flag would be, which is in the /root folder, which only root users have access to.
 

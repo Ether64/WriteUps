@@ -18,13 +18,13 @@
 
 - Enumerates possible hidden directories on the machine (with different names and extensions). Brute forces directories.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424121655.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424121655.png)
 
 - We use the gobuster tool running the dirbuster mode
 
 - Did the same command as above, but with https.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424121928.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424121928.png)
 
 - This found the /manual directory.
 
@@ -33,29 +33,29 @@
 **Nikto**
 
 - Moves onto running *nikto* tool; vulnerability scanner for websites.
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424122248.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424122248.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424122016.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424122016.png)
 - This found office.paper, an uncommon header 'x-backend-server' with contents office.paper (hostname). This was hidden in the HTTP header.
 
 - Capture the web request to the apache website {10.10.11.143) with Burpsuite.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424122425.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424122425.png)
 
 - Edited /etc/hosts file to define his own DNS; inputs the IP address and says that it needs to resolve to office.paper hostname. 
 
 - Now if we type in office.paper, it redirects us to the backend of a server Dunder Tifflin (WordPress)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424122454.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424122454.png)
 
 **Scanning WordPress site with wpscan**
 
 - In index.html file, will say something like (`if index.html in url = office.paper > office.paper wordpress`)
 
 - Scan:
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424122603.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424122603.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424122706.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424122706.png)
 
 - Found some users, lets create a users file to save potential creds for these.
 
@@ -69,7 +69,7 @@
 
 - Moves onto logging into another wordpress portal by bruteforcing with users with wpscan:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424123252.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424123252.png)
 
 - While this login bruteforce is running, we should look at the source code on the blog page.
 
@@ -85,15 +85,15 @@ First did steganography online to decode the message in the jpg. Doesn't give us
 
 **Stegcracker**
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424124216.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424124216.png)
 
 Runs stegcracker on it like this. (install: `pip3 install stegcracker`)
 
 **Stegseek**
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424124357.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424124357.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424124407.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424124407.png)
 
 **Gobuster office.paper**
 
@@ -101,13 +101,13 @@ Runs stegcracker on it like this. (install: `pip3 install stegcracker`)
 
 **Exploited Wordpress 5.2.3 to find saved drafts**
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424124717.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424124717.png)
 
 used this exploit: `http://office.paper/?static=1&order=desc` Vulnerability on Wordpress (Viewing unauthenticated/password/private posts)
 
 - From this, we see a secret registration url for new employee chat system
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424124947.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424124947.png)
 
 - In order to get to chat.office.paper, we need to change our DNS config in /etc/hosts to resolve to that site.
 
@@ -115,13 +115,13 @@ used this exploit: `http://office.paper/?static=1&order=desc` Vulnerability on W
 
 - After we login, and can see user 'Amy' is online
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424125202.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424125202.png)
 
 
 - Here, we find a bot, and are going to look to exploit the bot to potentially gain credentials or look to login during a certain specified time at wordpress/login.php
 
 - One of the things we can do is read files on directory. (File, joke, list...these are bot commands)
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424125721.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424125721.png)
 
 - Performed directory traversal to navigate backwards out of the current directory to etc, password, from which we catted the password file. 
 
@@ -135,7 +135,7 @@ Trying to look for important stuff using `list` and the bot's command execution.
 
 - Checking all allowed bot commands for code/command injection (injecting OS commands).
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424130737.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424130737.png)
 
 - We get output saying 'stop injecting OS commands!' which makes us know it is recognizing the OS commands we are injecting, doesn't necessary mean they are being filtered out.
 
@@ -151,7 +151,7 @@ Trying to look for important stuff using `list` and the bot's command execution.
 
 
 - From /hubot we see /.env, in which we can type the file command on to get some credentials 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424133029.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424133029.png)
 
 - Logged into dwight so we can access his file share. 
 
@@ -159,7 +159,7 @@ Trying to look for important stuff using `list` and the bot's command execution.
 
 - Now moves onto linpeas to privesc to root.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424133315.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424133315.png)
 
 - Finds a cronjob running bot_restart.sh on reboot
 
@@ -175,13 +175,13 @@ Trying to look for important stuff using `list` and the bot's command execution.
 
 **Recon** 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424135444.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424135444.png)
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424140327.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424140327.png)
 
 Start off with Nmap scan, then find a 'Play' website, then run gobuster on it... 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220424141424.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220424141424.png)
 
 - Does `sudo nmap -sU panda.htb -v  -p 161`  to get some actual scan results.
 

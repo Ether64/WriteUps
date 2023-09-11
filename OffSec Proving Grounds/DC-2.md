@@ -45,7 +45,7 @@
 
 - This didn't work, so we move onto exploiting with metasploit.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417123745.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417123745.png)
 
 - This seems like it failed as well.
 
@@ -82,14 +82,14 @@
 
 - We are trying to edit the less binary but we cant specify / in the command names.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417125802.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417125802.png)
 
 - The other form of exploitation was VISUAL, which we ....
 
 None of these worked, so we move on to trying `vi` within our shell escape process.
 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417130037.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417130037.png)
 
 THIS WORKED.
 
@@ -106,11 +106,11 @@ THIS WORKED.
 
 - Then we look at git in GTFObins.
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417130837.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417130837.png)
 
 - Git opens less, which we knew we could create a shell (sh or bash) off of. 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417130927.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417130927.png)
 
 - We got root after the !/bin/sh command executed.
 
@@ -118,7 +118,7 @@ THIS WORKED.
 
 **SCP Shell Escape**:
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417131009.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417131009.png)
 
 **Fixing the Vulnerabilites on the box**
 
@@ -128,7 +128,7 @@ THIS WORKED.
 
 - Updated admin user hash: 
 
-![](https://cdn.ethereal.bond/file/github-images/Pasted+image+20220417131545.png)
+![](https://f004.backblazeb2.com/file/github-images/Pasted+image+20220417131545.png)
 
 - Next we do is remove the exploitable vi binary, and replace an editor that is unexploitable. NO EDITOR UNEXPLOITABLE NVM
 
